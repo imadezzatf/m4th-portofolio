@@ -9,6 +9,18 @@ const allProjects = [
     techStack: ['ReactJS', 'SCSS', 'API'],
   },
 
+
+
+  {
+    title: 'Temuin',
+    img: require('../img/Project6.webp'),
+    description:
+      'TEMUIN is a campus Lost & Found Management System built with Laravel and Filament, allowing users to report, search, claim, and manage lost items through a role-based admin panel.',
+    websiteUrl: '',
+    githubUrl: 'https://github.com/imadezzatf/Temuin',
+    techStack: ['PHP', 'Laravel', 'Filament',],
+  },
+
   {
     title: 'Luxure Store',
     img: require('../img/Project5.webp'),
@@ -16,7 +28,7 @@ const allProjects = [
       'Luxure Store is a website for selling and ordering luxury products, this website uses the Django framework.',
     websiteUrl: '',
     githubUrl: 'https://github.com/imadezzatf/Luxure-Store-Django',
-    techStack: ['Python', 'Django',],
+    techStack: ['Python', 'Django', 'Bootstrap', ],
   },
 ];
 

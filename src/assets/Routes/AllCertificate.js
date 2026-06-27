@@ -7,10 +7,10 @@ import Certificate6 from "../img/Certificate6.webp";
 
 const certificateImages = [
   Certificate5,
-  Certificate2,
-  Certificate3,
-  Certificate1,
   Certificate4,
+  Certificate3,
+  Certificate2,
+  Certificate1,
   Certificate6,
 ];
 
