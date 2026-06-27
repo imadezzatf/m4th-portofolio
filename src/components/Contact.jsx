@@ -64,7 +64,7 @@ function Contact() {
                   </h3>
                   <p>Imad Ezzat Fanany</p>
                   <a
-                    href="https://www.linkedin.com/in/imadezzatf/"
+                    href="https://www.linkedin.com/in/imad-ezzat-fanany"
                     target="_blank"
                     rel="noreferrer"
                     className="btn-direct"
