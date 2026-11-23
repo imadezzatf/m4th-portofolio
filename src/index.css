@@ -437,3 +437,49 @@ body {
     transform: none;
   }
 }
+/* ===== Perbaikan tampilan HP ===== */
+
+/* Tinggi kanvas tetap, tidak berkedip saat address bar muncul/hilang */
+@supports (height: 100lvh) {
+  .canvas-layer { height: 100lvh; }
+}
+
+/* Tombol mata tetap terlihat walau ada teks di bawahnya */
+.eye-btn {
+  background: rgba(5, 5, 7, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+@media (max-width: 640px) {
+  /* Tombol mata pindah ke kanan bawah: tidak menimpa menu, mudah dijangkau jempol */
+  .eye-btn {
+    top: auto;
+    left: auto;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: 44px;
+    height: 44px;
+  }
+  .hint {
+    bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+    width: max-content;
+    max-width: calc(100vw - 150px);
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .content { padding: 56px 20px 120px; }
+  .content::before { inset: 30px 4px 96px; }
+  .nav { font-size: 15px; }
+  .post-list a { font-size: 16px; }
+  .cover-info p { font-size: 11px; }
+
+  /* Label di dalam adegan 3D lebih kecil */
+  .planet-label,
+  .orbit-label { font-size: 8px; letter-spacing: 0.14em; }
+  .planet-label.home span,
+  .orbit-label span { font-size: 7px; }
+  .you-are-here { font-size: 9px; letter-spacing: 0.2em; }
+  .formula { font-size: 10px; }
+}

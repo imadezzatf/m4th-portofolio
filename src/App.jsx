@@ -50,8 +50,8 @@ export default function App() {
         {hidden ? <EyeOff /> : <Eye />}
       </button>
 
-      <p className={`hint ${hidden ? 'show' : ''}`}>drag for rotation · scroll for zoom</p>
-
+      <p className={`hint ${hidden ? 'show' : ''}`}>drag to rotate · pinch or scroll to zoom</p>
+      
       <main className={`content ${hidden ? 'hidden' : ''}`}>
         <Nav />
         <Routes>
