@@ -1,46 +1,439 @@
-/* Archivo */
-@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+:root { color-scheme: dark;
+        --accent: #e8a366;
+}
+* { box-sizing: border-box; }
 
-/* Manrope */
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
-
-/* Roboto Mono */
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
-
-/* Source Serif Pro */
-@import url("https://fonts.googleapis.com/css2?family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
-
-:root {
-  --first-color: #1c658c;
-  --second-color: #398ab9;
-  --third-color: #d8d2cb;
-  --fourth-color: #eeeeee;
-  --five-color: #e1c16e;
-  --six-color: #0d6efd;
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  background: #050507;
+  color: #e8e6e1;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
-* {
+/* Lapisan belakang: 3D */
+.canvas-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Lapisan depan: teks */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+.nav { display: flex; gap: 18px; margin-bottom: 28px; font-size: 14px; }
+.nav a { color: #e8e6e1; text-decoration: none; }
+.nav a.active { color: var(--accent); }
+
+h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; }
+p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
+
+/* Transisi saat teks disembunyikan */
+.content {
+  transition: opacity 0.5s ease;
+}
+.content.hidden {
+  opacity: 0;
+  pointer-events: none; /* supaya klik/drag tembus ke kanvas */
+}
+
+/* Kursor tangan di atas kanvas */
+.canvas-layer canvas { cursor: grab; }
+.canvas-layer canvas:active { cursor: grabbing; }
+
+/* Tombol mata */
+.eye-btn {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(232, 230, 225, 0.18);
+  border-radius: 50%;
+  color: #b9b6ae;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.eye-btn:hover {
+  color: var(--accent);
+  border-color: #e8a366;
+}
+
+/* Petunjuk kecil, muncul hanya saat teks disembunyikan */
+.hint {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6f6d68;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.hint.show { opacity: 1; }
+
+.you-are-here {
+  transform: translateY(-34px);
+  text-align: center;
+  white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent), 0 0 18px var(--accent);
+  animation: glow 2.4s ease-in-out infinite;
+}
+.you-are-here::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 22px;
+  margin: 6px auto 0;
+  background: linear-gradient(var(--accent), transparent);
+}
+@keyframes glow {
+  0%, 100% { opacity: 0.6; text-shadow: 0 0 6px var(--accent); }
+  50%      { opacity: 1;   text-shadow: 0 0 10px var(--accent), 0 0 24px var(--accent); }
+}
+.planet-label {
+  transform: translateY(-22px);
+  white-space: nowrap;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8d8a84;
+}
+/* Label khusus Bumi */
+.planet-label.home {
+  transform: translateY(-44px);
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+  animation: glow 2.4s ease-in-out infinite;
+}
+.planet-label.home span {
+  display: block;
+  margin-top: 4px;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+}
+.planet-label.home::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 16px;
+  margin: 6px auto 0;
+  background: linear-gradient(var(--accent), transparent);
+}
+.orbit-label {
+  transform: translateY(-16px);
+  text-align: center;
+  white-space: nowrap;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8d8a84;
+}
+.orbit-label span {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
+}
+.orbit-label.accent {
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+}
+
+.formula {
+  white-space: nowrap;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #9a978f;
+  font-style: italic;
+}
+
+.sub {
+  margin: 0 0 28px;
+  font-size: 13px;
+  color: #77746e;
+}
+
+.card {
+  margin-bottom: 30px;
+}
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #e8e6e1;
+}
+.card p {
+  margin: 0 0 8px;
+}
+.card .date,
+.card .tags {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6f6d68;
+}
+.card .date {
+  margin-bottom: 8px;
+}
+
+.links {
+  display: flex;
+  gap: 18px;
+  margin-top: 28px;
+}
+.links a,
+.more {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+}
+.links a:hover,
+.more:hover {
+  text-decoration: underline;
+}
+.more {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+/* teks panjang tetap terbaca di atas adegan 3D */
+.content {
+  padding-bottom: 120px;
+}
+.content h1,
+.content p,
+.content h2 {
+  text-shadow: 0 0 14px rgba(5, 5, 7, 0.9);
+}
+
+/* daftar tulisan: hanya judul + tanggal */
+.post-list {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  list-style: none;
+}
+.post-list li {
+  margin-bottom: 22px;
+}
+.post-list a {
+  font-size: 17px;
+  color: #e8e6e1;
+  text-decoration: none;
+  text-shadow: 0 0 14px rgba(5, 5, 7, 0.9);
+  transition: color 0.2s;
+}
+.post-list a:hover {
+  color: var(--accent);
+}
+.post-list .date {
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6f6d68;
 }
 
+/* halaman satu tulisan */
+.post .date {
+  margin: 0 0 22px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6f6d68;
+}
+.post p {
+  margin: 0 0 18px;
+}
+.back {
+  display: inline-block;
+  margin-bottom: 22px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+}
+.back:hover {
+  text-decoration: underline;
+}
+/* ===== Perbaikan keterbacaan teks ===== */
+
+/* Panel gelap transparan + blur di belakang teks */
+.content::before {
+  content: '';
+  position: absolute;
+  inset: -40px -120px 40px;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, rgba(5, 5, 7, 0.75) 0%, rgba(5, 5, 7, 0.45) 45%, transparent 75%);
+  pointer-events: none;
+}
+/* Teks lebih terang dan sedikit lebih besar */
+p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #d6d3cb;
+}
+.sub {
+  color: #a19e96;
+}
+.card .date,
+.card .tags,
+.post .date,
+.post-list .date {
+  color: #9a978f;
+}
+.nav a {
+  color: #f0ede6;
+}
+.nav a.active {
+  color: var(--accent);
+}
+
+/* ===== Satu layar saja: tidak ada geser ke samping ===== */
+
+/* Pengaman: potong apa pun yang keluar dari sisi kiri/kanan.
+   Pakai "clip", bukan "hidden", supaya scroll atas-bawah tetap normal */
+html,
 body {
-  background-color: var(--fourth-color);
+  overflow-x: clip;
 }
 
-.preload {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: var(--fourth-color);
-  height: 100vh;
+/* Akar masalah: panel tidak lagi melebar keluar dari teks */
+.content::before {
+  inset: 36px 0 96px;
+}
+
+/* Layar kecil (HP) */
+@media (max-width: 640px) {
+  .content {
+    padding: 44px 20px 110px;
+  }
+  .content::before {
+    inset: 22px 6px 84px;
+    border-radius: 18px;
+  }
+  .nav {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  p {
+    font-size: 15px;
+  }
+  .content h1,
+  .content h2,
+  .content p {
+    overflow-wrap: anywhere; /* kata panjang tidak mendorong lebar halaman */
+  }
+}
+/* grid 2 kolom (1 kolom di HP). minmax(0, 1fr) mencegah geser ke samping */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 22px;
+}
+.grid .card {
+  margin-bottom: 0;
+}
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* gambar / video di kartu proyek */
+.media {
+  aspect-ratio: 16 / 10;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(232, 230, 225, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+.media img,
+.media video {
+  display: block;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.media video {
+  cursor: pointer;
 }
 
-.preload h1 {
-  font-family: 'Source Serif Pro', serif;
+/* sampul di halaman cabinet */
+.cover {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(232, 230, 225, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.cover:hover img {
+  transform: scale(1.05);
+}
+.cover-info {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 36px 12px 12px;
+  background: linear-gradient(transparent, rgba(5, 5, 7, 0.9));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.cover:hover .cover-info {
+  opacity: 1;
+  transform: none;
+}
+.cover-info h2 {
+  margin: 0 0 3px;
+  font-size: 14px;
+  color: #f0ede6;
+}
+.cover-info p {
   margin: 0;
-  cursor: default;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b9b6ae;
+}
+/* layar sentuh tidak punya hover → info selalu tampil */
+@media (hover: none) {
+  .cover-info {
+    opacity: 1;
+    transform: none;
+  }
 }

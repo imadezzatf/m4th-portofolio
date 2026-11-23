@@ -1,0 +1,119 @@
+export const ABOUT = {
+  paragraphs: [
+    "Hi, I'm Ezzat! I build things for the web, and I get lost in the night sky when I should be sleeping.",
+    "This site is a small universe. Every page is a different corner of it: a cluster of galaxies, a solar system, a few orbits, and a bend in spacetime.",
+    "The scene behind this text is gravitational lensing. Light from a faraway galaxy gets bent by the gravity of a galaxy in front of it, so we see the same distant object in places it isn't. I like that idea: what you see depends on what stands in between.",
+    "Hide this text with the eye button (or press H) and drag around to explore.",
+  ],
+  links: [
+    { label: 'email', href: 'https://mail.google.com/mail/?view=cm&to=imadezzatf@gmail.com' },
+    { label: 'github', href: 'https://github.com/imadezzatf' },
+  ],
+}
+
+export const PROJECTS = {
+  sub: 'some notable things i have built!',
+  items: [
+    {
+      title: 'cosmos portfolio',
+      desc: 'This very website. A 3D universe built with React Three Fiber, where every page is its own scene.',
+      tags: ['react', 'three.js', 'vite'],
+      link: 'https://github.com/imadezzatf/cosmos',
+      // video: diputar saat di-hover. poster = gambar yang tampil sebelum diputar
+      media: { type: 'image', src: '/media/cosmos.webp' },
+    },
+    {
+      title: 'habit tracker app',
+      desc: 'A minimal habit tracker with streaks, gentle reminders, and a weekly summary.',
+      tags: ['react native', 'firebase'],
+      link: '',
+      // gambar biasa
+      media: { type: 'image', src: '/media/app-tracker.webp' },
+    },
+    {
+      title: 'weather dashboard',
+      desc: 'A clean dashboard that turns a messy weather API into a quick glance.',
+      tags: ['javascript', 'rest api'],
+      link: '',
+      // tanpa media: kartu tampil tanpa gambar
+    },
+    {
+      title: 'study buddy bot',
+      desc: 'A chat bot that quizzes you on your own notes and keeps score.',
+      tags: ['python', 'discord api'],
+      link: '',
+    },
+  ],
+}
+
+export const WRITING = {
+  sub: 'notes, thoughts, and things i learned along the way.',
+  items: [
+    {
+      slug: 'why-i-started-building-in-public',
+      title: 'Why I started building in public',
+      date: 'November 20, 2026',
+      body: [
+        "For a long time I waited until things were ready before showing them to anyone. Ready never came.",
+        "So I tried the opposite: ship something small, imperfect, and tell people about it. The first few posts were embarrassing. They were also the first time anyone gave me feedback that actually helped.",
+        "Building in public is not about an audience. It is about making it a little harder to quietly give up.",
+      ],
+    },
+    {
+      slug: 'what-the-night-sky-taught-me',
+      title: 'What the night sky taught me about patience',
+      date: 'November 12, 2026',
+      body: [
+        "The light you see from a star tonight left it a very long time ago. You are looking at the past, and it is still beautiful.",
+        "I think about that when a project feels slow. Most good things take a while to arrive, and you only see the light once it has travelled far enough.",
+        "Keep going. Someone, somewhere, will see it when it gets there.",
+      ],
+    },
+    {
+      slug: 'learning-in-the-open',
+      title: 'Learning in the open',
+      date: 'November 5, 2026',
+      body: [
+        "You do not need to be an expert to start writing about something. You need a question and a little stubbornness.",
+        "When I learn a new tool, I write down what confused me. Those notes turned out to be the most useful thing I have ever published, because they are written for the person I was last week.",
+      ],
+    },
+    {
+      slug: 'how-i-built-this-website',
+      title: 'How I built this website',
+      date: 'October 28, 2026',
+      body: [
+        "This site is a fixed 3D canvas with plain HTML laid on top. The canvas never reloads, so moving between pages is just the camera gliding to a new spot.",
+        "Stars are one object made of thousands of points, galaxies are spirals generated from a formula, and the orbits you see on the writing page come from a single equation.",
+        "The best part of building it was how small each piece was on its own. Stack enough small pieces and you get a universe.",
+      ],
+    },
+  ],
+}
+
+export const CABINET = {
+  sub: 'things i love to yap about. hover a cover to play a snippet!',
+  items: [
+    {
+      title: 'lo-fi playlist',
+      note: 'The soundtrack to late-night coding.',
+      cover: '/media/lofi.webp',
+      audio: '/media/lofi-snippet.mp3',   // opsional: diputar saat di-hover
+    },
+    {
+      title: 'space documentary',
+      note: 'Makes me feel small and curious at once.',
+      cover: '/media/space.webp',
+    },
+    {
+      title: 'mechanical keyboard',
+      note: 'Yes, I have opinions about switches.',
+      cover: '/media/keyboard.webp',
+    },
+    {
+      title: 'stargazing',
+      note: 'The same constellations never get old.',
+      cover: '/media/stars.webp',
+    },
+  ],
+}

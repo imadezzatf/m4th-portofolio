@@ -1,56 +1,67 @@
-import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
-import { Spinner } from "react-bootstrap";
-import SideVertical from "./partials/SideVertical";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
-import Skills from "./components/Skills";
-import About from "./components/About";
-import NavTop from "./partials/NavTop";
-import NavBot from "./partials/NavBot";
-import Footer from "./partials/Footer";
-import Home from "./components/Home";
-import "./index";
+import { useState, useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import Experience from './three/Experience'
+import Nav from './components/Nav'
+import { About, Projects, Writing, WritingPost, Cabinet } from './pages'
 
-function App() {
-  const [preload, setPreload] = useState(true);
+const Eye = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+)
 
-  setTimeout(function () {
-    setPreload(false);
-  }, 2000);
+const EyeOff = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+    <circle cx="12" cy="12" r="3" />
+    <line x1="3" y1="3" x2="21" y2="21" />
+  </svg>
+)
 
-  if (preload) {
-    return (
-      <>
-        <div className="preload">
-          <h1>
-            <strong>Imad</strong>
-            <i> Ez</i>.
-          </h1>
-          <p>─────</p>
-          <Spinner animation="grow" />
-        </div>
-      </>
-    );
-  }
+export default function App() {
+  const [hidden, setHidden] = useState(false)
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  // Tekan tombol H untuk toggle
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'h' || e.key === 'H') setHidden((h) => !h)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
     <>
-      <NavTop />
-      <div className="d-flex">
-        <SideVertical />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/skills" element={<Skills />}></Route>
-          <Route path="/projects" element={<Projects />}></Route>
-          <Route path="/contact" element={<Contact />}></Route>
-        </Routes>
+      <div className="canvas-layer">
+        <Experience />
       </div>
-      <Footer />
-      <NavBot />
-    </>
-  );
-}
 
-export default App;
+      <button
+        className="eye-btn"
+        onClick={() => setHidden((h) => !h)}
+        title="sembunyikan / tampilkan teks (H)"
+        aria-label={hidden ? 'tampilkan teks' : 'sembunyikan teks'}
+      >
+        {hidden ? <EyeOff /> : <Eye />}
+      </button>
+
+      <p className={`hint ${hidden ? 'show' : ''}`}>drag for rotation · scroll for zoom</p>
+
+      <main className={`content ${hidden ? 'hidden' : ''}`}>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/writing/:slug" element={<WritingPost />} />
+          <Route path="/cabinet" element={<Cabinet />} />
+        </Routes>
+      </main>
+    </>
+  )
+}
