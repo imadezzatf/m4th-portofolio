@@ -483,3 +483,207 @@ body {
   .you-are-here { font-size: 9px; letter-spacing: 0.2em; }
   .formula { font-size: 10px; }
 }
+
+.songs .tile { aspect-ratio: 1; }
+.films .tile { aspect-ratio: 2 / 3; }
+.tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+.tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.tile:hover img { transform: scale(1.05); }
+
+.tile-info {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 34px 10px 10px;
+  background: linear-gradient(transparent, rgba(5, 5, 7, 0.92));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.tile:hover .tile-info,
+.tile.nocover .tile-info {
+  opacity: 1;
+  transform: none;
+}
+.tile.nocover .tile-info {
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: none;
+}
+.tile-info h2 {
+  margin: 0 0 2px;
+  font-size: 13px;
+  line-height: 1.3;
+  color: #f0ede6;
+}
+.tile-info p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #b9b6ae;
+}
+@media (hover: none) {
+  .tile-info { opacity: 1; transform: none; }
+}
+
+/* indikator sedang memutar lagu */
+.bars {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  padding: 4px 5px;
+  border-radius: 6px;
+  background: rgba(5, 5, 7, 0.6);
+}
+.bars i {
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite;
+}
+.bars i:nth-child(2) { animation-delay: 0.2s; }
+.bars i:nth-child(3) { animation-delay: 0.4s; }
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+/* ===== Cabinet: dinding sampul (masonry, 4 kolom di semua layar) ===== */
+.wall {
+  column-count: 4;
+  column-gap: 10px;
+}
+
+.piece {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 0 10px;
+  break-inside: avoid;
+  overflow: hidden;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.piece.square { aspect-ratio: 1; }
+.piece.tall   { aspect-ratio: 2 / 3; }
+
+.piece:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+.piece:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.piece img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* judul: muncul saat hover, saat diputar, atau kalau gambar tidak ada */
+.piece-info {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 26px 8px 8px;
+  background: linear-gradient(transparent, rgba(5, 5, 7, 0.92));
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.piece:hover .piece-info,
+.piece.playing .piece-info,
+.piece.nocover .piece-info {
+  opacity: 1;
+  transform: none;
+}
+.piece-info h2 {
+  margin: 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #f0ede6;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.piece-info p {
+  margin: 2px 0 0;
+  overflow: hidden;
+  font-size: 10px;
+  line-height: 1.3;
+  color: #b9b6ae;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* kotak tanpa gambar */
+.piece.nocover {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+/* penanda lagu sedang diputar */
+.piece.playing {
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+.eqbars {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  padding: 4px 5px;
+  border-radius: 6px;
+  background: rgba(5, 5, 7, 0.65);
+}
+.eqbars i {
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: bottom;
+  animation: eqbounce 0.9s ease-in-out infinite;
+}
+.eqbars i:nth-child(2) { animation-delay: 0.2s; }
+.eqbars i:nth-child(3) { animation-delay: 0.4s; }
+@keyframes eqbounce {
+  0%, 100% { transform: scaleY(0.3); }
+  50%      { transform: scaleY(1); }
+}
+
+/* HP: tetap 4 kolom, kotak lebih kecil dan rapat */
+@media (max-width: 640px) {
+  .wall { column-gap: 6px; }
+  .piece { margin-bottom: 6px; border-radius: 4px; }
+  .piece-info { padding: 18px 5px 5px; }
+  .piece-info h2 { font-size: 9px; }
+  .piece-info p { display: none; }
+  .eqbars { top: 4px; right: 4px; height: 10px; padding: 3px 4px; }
+}
+
+/* layar sentuh: jangan "tersangkut" membesar setelah diketuk */
+@media (hover: none) {
+  .piece:hover { transform: none; box-shadow: none; }
+}

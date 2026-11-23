@@ -18,7 +18,7 @@ export const PROJECTS = {
       title: 'cosmos portfolio',
       desc: 'This very website. A 3D universe built with React Three Fiber, where every page is its own scene.',
       tags: ['react', 'three.js', 'vite'],
-      link: 'https://github.com/imadezzatf/cosmos',
+      link: 'https://github.com/imadezzatf/m4th-portofolio',
       // video: diputar saat di-hover. poster = gambar yang tampil sebelum diputar
       media: { type: 'image', src: '/media/cosmos.webp' },
     },
@@ -92,28 +92,53 @@ export const WRITING = {
 }
 
 export const CABINET = {
-  sub: 'things i love to yap about. hover a cover to play a snippet!',
+  sub: 'things i love to yap about. tap a song to play a snippet!!',
   items: [
+    // kind: 'song' → sampul + potongan lagu otomatis dari iTunes (tulis "judul artis")
+    // kind: 'film' → poster dari iTunes; link = halaman yang dibuka saat diklik
+    { kind: 'song', title: 'Chocolate', by: 'The 1975', itunes: 'Chocolate The 1975' },
     {
-      title: 'lo-fi playlist',
-      note: 'The soundtrack to late-night coding.',
-      cover: '/media/lofi.webp',
-      audio: '/media/lofi-snippet.mp3',   // opsional: diputar saat di-hover
+      kind: 'film',
+      title: 'Captain America: The Winter Soldier',
+      by: 'Anthony & Joe Russo',
+      cover: '/media/cabinet/captain.webp',
+      link: 'https://en.wikipedia.org/wiki/Captain_America:_The_Winter_Soldier',
     },
+    { kind: 'song', title: 'Cornerstone', by: 'Arctic Monkeys', itunes: 'Cornerstone Arctic Monkeys' },
+    { kind: 'song', title: 'Misery Business', by: 'Paramore', itunes: 'Misery Business Paramore' },
     {
-      title: 'space documentary',
-      note: 'Makes me feel small and curious at once.',
-      cover: '/media/space.webp',
+      kind: 'film',
+      title: 'Project Hail Mary',
+      by: 'Phil Lord & Christopher Miller',
+      cover: '/media/cabinet/Project_Hail_Mary_poster.webp',
+      link: 'https://en.wikipedia.org/wiki/Project_Hail_Mary_(film)',
     },
-    {
-      title: 'mechanical keyboard',
-      note: 'Yes, I have opinions about switches.',
-      cover: '/media/keyboard.webp',
+     { 
+      kind: 'film',
+      title: 'Interstellar', 
+      by: 'Christopher Nolan', 
+      cover: '/media/cabinet/Interstellar_film_poster.webp',
+      link: 'https://en.wikipedia.org/wiki/Interstellar_(film)',
+      
     },
-    {
-      title: 'stargazing',
-      note: 'The same constellations never get old.',
-      cover: '/media/stars.webp',
-    },
+    { 
+      kind: 'film', 
+      title: 'Your Name', 
+      by: 'Makoto Shinkai',
+       cover: '/media/cabinet/Your_Name_poster.webp', 
+       link: 'https://en.wikipedia.org/wiki/Your_Name' 
+      },
+    { kind: 'song', title: 'LOVE DIVE', by: 'IVE', itunes: 'LOVE DIVE IVE' },
+    { kind: 'song', title: 'How Sweet', by: 'NewJeans', itunes: 'How Sweet NewJeans' },
+    { kind: 'song', title: 'Come Over', by: 'The Internet', itunes: 'Come Over The Internet' },
+    {kind: 'song', title: 'the less i know the better', by: 'Tame Impala', itunes: 'the less i know the better Tame Impala' },
+    
+  {
+    kind: 'film',
+    title: 'The Last: Naruto the Movie',
+    by: 'Tsuneo Kobayashi',
+    cover: '/media/cabinet/TheLastNarutomovie.webp',
+    link: 'https://en.wikipedia.org/wiki/The_Last:_Naruto_the_Movie',
+  }
   ],
 }
