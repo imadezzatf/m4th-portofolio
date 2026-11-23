@@ -35,13 +35,15 @@ export const PROJECTS = {
       desc: 'A clean dashboard that turns a messy weather API into a quick glance.',
       tags: ['javascript', 'rest api'],
       link: '',
+      media: { type: 'image', src: '/media/cabinet/weather.webp' },
       // tanpa media: kartu tampil tanpa gambar
     },
     {
-      title: 'study buddy bot',
-      desc: 'A chat bot that quizzes you on your own notes and keeps score.',
-      tags: ['python', 'discord api'],
+      title: 'fedora gnome setup',
+      desc: 'A quick look at my Fedora Linux desktop running GNOME, with a clean and minimal setup.',
+      tags: ['fedora', 'gnome', 'linux'],
       link: '',
+      media: { type: 'video', src: '/media/linux-web.mp4', poster: '/media/linux-poster.webp' },
     },
   ],
 }
@@ -105,7 +107,9 @@ export const CABINET = {
       link: 'https://en.wikipedia.org/wiki/Captain_America:_The_Winter_Soldier',
     },
     { kind: 'song', title: 'Cornerstone', by: 'Arctic Monkeys', itunes: 'Cornerstone Arctic Monkeys' },
-    { kind: 'song', title: 'Misery Business', by: 'Paramore', itunes: 'Misery Business Paramore' },
+    { kind: 'song', title: 'When It Rains', by: 'Paramore', itunes: 'When It Rains Paramore' },
+    { kind: 'song', title: 'Back To Me', by: 'The Marias', itunes: 'Back To Me The Marias' },
+    { kind: 'song', title: 'Untuk Perempuan Yang Sedang Di Pelukan', by: 'Payung Teduh', itunes: 'Untuk Perempuan Yang Sedang Di Pelukan Payung Teduh' },
     {
       kind: 'film',
       title: 'Project Hail Mary',
@@ -113,32 +117,48 @@ export const CABINET = {
       cover: '/media/cabinet/Project_Hail_Mary_poster.webp',
       link: 'https://en.wikipedia.org/wiki/Project_Hail_Mary_(film)',
     },
-     { 
+    {
       kind: 'film',
-      title: 'Interstellar', 
-      by: 'Christopher Nolan', 
+      title: 'Interstellar',
+      by: 'Christopher Nolan',
       cover: '/media/cabinet/Interstellar_film_poster.webp',
       link: 'https://en.wikipedia.org/wiki/Interstellar_(film)',
-      
+
     },
-    { 
-      kind: 'film', 
-      title: 'Your Name', 
+    {
+      kind: 'film',
+      title: 'Your Name',
       by: 'Makoto Shinkai',
-       cover: '/media/cabinet/Your_Name_poster.webp', 
-       link: 'https://en.wikipedia.org/wiki/Your_Name' 
-      },
+      cover: '/media/cabinet/Your_Name_poster.webp',
+      link: 'https://en.wikipedia.org/wiki/Your_Name'
+    },
     { kind: 'song', title: 'LOVE DIVE', by: 'IVE', itunes: 'LOVE DIVE IVE' },
     { kind: 'song', title: 'How Sweet', by: 'NewJeans', itunes: 'How Sweet NewJeans' },
     { kind: 'song', title: 'Come Over', by: 'The Internet', itunes: 'Come Over The Internet' },
-    {kind: 'song', title: 'the less i know the better', by: 'Tame Impala', itunes: 'the less i know the better Tame Impala' },
-    
-  {
-    kind: 'film',
-    title: 'The Last: Naruto the Movie',
-    by: 'Tsuneo Kobayashi',
-    cover: '/media/cabinet/TheLastNarutomovie.webp',
-    link: 'https://en.wikipedia.org/wiki/The_Last:_Naruto_the_Movie',
-  }
+    { kind: 'song', title: 'the less i know the better', by: 'Tame Impala', itunes: 'the less i know the better Tame Impala' },
+    { kind: 'song', title: 'supernova love', by: 'IVE', itunes: 'supernova love IVE' },
+    { kind: 'song', title: 'Harvey', by: 'Her\'s', itunes: 'Harvey Her\'s' },
+    {
+      kind: 'film',
+      title: 'The Last: Naruto the Movie',
+      by: 'Tsuneo Kobayashi',
+      cover: '/media/cabinet/TheLastNarutomovie.webp',
+      link: 'https://en.wikipedia.org/wiki/The_Last:_Naruto_the_Movie',
+    },
+    {
+      kind: 'film',
+      title: 'Look Back',
+      by: 'Tatsuki Fujimoto',
+      cover: '/media/cabinet/Look_Back.webp',
+      link: 'https://id.wikipedia.org/wiki/Look_Back_(film_2024)',
+    },
+    {
+      kind: 'film',
+      title: 'The Odyssey',
+      by: 'Christopher Nolan',
+      cover: '/media/cabinet/The_Odyssey-film_poster.webp',
+      link: 'https://id.wikipedia.org/wiki/The_Odyssey_(film_2026)',
+    },
+    { kind: 'song', title: 'Telepatia', by: 'Kali Uchis', itunes: 'Telepatia Kali Uchis' },
   ],
 }

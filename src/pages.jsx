@@ -14,35 +14,48 @@ function Head({ title, sub }) {
 
 // Kotak gambar / video untuk kartu proyek
 function Media({ media, alt }) {
+  const box = useRef(null)
   const vid = useRef(null)
+  const [near, setNear] = useState(false)   // true = kartu sudah terlihat
+
+  useEffect(() => {
+    if (media?.type !== 'video' || !box.current) return
+    if (vid.current) vid.current.muted = true   // wajib muted agar autoplay lolos di HP
+
+    const io = new IntersectionObserver(
+      ([e]) => {
+        const v = vid.current
+        if (e.isIntersecting) {
+          setNear(true)                     // mulai unduh video
+          v?.play()?.catch(() => { })       // jalan saat kelihatan
+        } else {
+          v?.pause()                        // berhenti saat di luar layar
+        }
+      },
+      { threshold: 0.25 }
+    )
+    io.observe(box.current)
+    return () => io.disconnect()
+  }, [media])
+
   if (!media) return null
 
   const hide = (e) => {
-    e.currentTarget.parentElement.style.display = 'none'   // file tidak ketemu → sembunyikan
+    e.currentTarget.parentElement.style.display = 'none'
   }
 
   if (media.type === 'video') {
-    const toggle = () => {
-      const v = vid.current
-      if (!v) return
-      if (v.paused) v.play()?.catch(() => { })
-      else v.pause()
-    }
     return (
-      <div
-        className="media"
-        onMouseEnter={() => vid.current?.play()?.catch(() => { })}
-        onMouseLeave={() => vid.current?.pause()}
-        onClick={toggle}
-      >
+      <div ref={box} className="media">
         <video
           ref={vid}
-          src={media.src}
+          src={near ? media.src : undefined}
           poster={media.poster}
+          autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload={near ? 'auto' : 'none'}
           onError={hide}
         />
       </div>
@@ -210,7 +223,7 @@ function Piece({ item }) {
     }
     if (currentAudio && currentAudio !== a) currentAudio.pause()
     a.currentTime = 0
-    a.play().catch(() => {})
+    a.play().catch(() => { })
     currentAudio = a
   }
 
