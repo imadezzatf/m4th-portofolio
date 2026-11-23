@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ABOUT, PROJECTS, WRITING, CABINET } from './content'
 
-
 function Head({ title, sub }) {
   return (
     <>
@@ -12,50 +11,63 @@ function Head({ title, sub }) {
   )
 }
 
-// Kotak gambar / video untuk kartu proyek
-function Media({ media, alt }) {
+/* ============================================================
+   Media: gambar / video, dipakai di kartu proyek DAN di dalam tulisan
+   - video autoplay (muted, loop) saat terlihat, berhenti saat keluar layar
+   - controls: true → video dengan tombol play/seek/suara, tanpa autoplay
+   - natural: true → tinggi mengikuti isi (untuk di dalam tulisan)
+   ============================================================ */
+function Media({ media, alt, natural = false }) {
   const box = useRef(null)
   const vid = useRef(null)
-  const [near, setNear] = useState(false)   // true = kartu sudah terlihat
+  const [near, setNear] = useState(false)   // true = sudah terlihat → mulai unduh video
+
+  const withControls = !!media?.controls
 
   useEffect(() => {
     if (media?.type !== 'video' || !box.current) return
-    if (vid.current) vid.current.muted = true   // wajib muted agar autoplay lolos di HP
+    if (vid.current) vid.current.muted = !withControls   // autoplay wajib muted di HP
 
     const io = new IntersectionObserver(
       ([e]) => {
         const v = vid.current
         if (e.isIntersecting) {
-          setNear(true)                     // mulai unduh video
-          v?.play()?.catch(() => { })       // jalan saat kelihatan
+          setNear(true)
+          if (!withControls) v?.play()?.catch(() => { })
+        } else if (!withControls) {
+          v?.pause()
         } else {
-          v?.pause()                        // berhenti saat di luar layar
+          v?.pause()
         }
       },
       { threshold: 0.25 }
     )
     io.observe(box.current)
     return () => io.disconnect()
-  }, [media])
+  }, [media, withControls])
 
   if (!media) return null
 
   const hide = (e) => {
     e.currentTarget.parentElement.style.display = 'none'
   }
+  const cls = `media ${natural ? 'natural' : ''}`
 
   if (media.type === 'video') {
+    // rasio dikunci supaya layout tidak loncat saat video dimuat
+    const style = natural ? { aspectRatio: media.ratio || '16 / 9' } : undefined
     return (
-      <div ref={box} className="media">
+      <div ref={box} className={cls} style={style}>
         <video
           ref={vid}
           src={near ? media.src : undefined}
           poster={media.poster}
-          autoPlay
-          muted
-          loop
+          autoPlay={!withControls}
+          muted={!withControls}
+          loop={!withControls}
+          controls={withControls}
           playsInline
-          preload={near ? 'auto' : 'none'}
+          preload={near ? (withControls ? 'metadata' : 'auto') : 'none'}
           onError={hide}
         />
       </div>
@@ -63,10 +75,54 @@ function Media({ media, alt }) {
   }
 
   return (
-    <div className="media">
+    <div className={cls}>
       <img src={media.src} alt={alt} loading="lazy" onError={hide} />
     </div>
   )
+}
+
+/* ============================================================
+   Block: satu bagian isi tulisan
+   - string                        → paragraf
+   - { type: 'heading', text }     → subjudul
+   - { type: 'image', src, caption }
+   - { type: 'video', src, poster, caption, controls?, ratio? }
+   - { type: 'youtube', id, caption }
+   ============================================================ */
+function Block({ block }) {
+  if (typeof block === 'string') return <p>{block}</p>
+
+  if (block.type === 'heading') {
+    return <h2 className="post-h">{block.text}</h2>
+  }
+
+  if (block.type === 'image' || block.type === 'video') {
+    return (
+      <figure className="figure">
+        <Media media={block} alt={block.caption || ''} natural />
+        {block.caption && <figcaption>{block.caption}</figcaption>}
+      </figure>
+    )
+  }
+
+  if (block.type === 'youtube') {
+    return (
+      <figure className="figure">
+        <div className="media natural" style={{ aspectRatio: '16 / 9' }}>
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${block.id}`}
+            title={block.caption || 'video'}
+            loading="lazy"
+            allow="accelerometer; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+        {block.caption && <figcaption>{block.caption}</figcaption>}
+      </figure>
+    )
+  }
+
+  return null
 }
 
 export function About() {
@@ -145,12 +201,16 @@ export function WritingPost() {
       <Link className="back" to="/writing">← all writing</Link>
       <h1>{post.title}</h1>
       <div className="date">{post.date}</div>
-      {post.body.map((t, i) => (
-        <p key={i}>{t}</p>
+      {post.body.map((b, i) => (
+        <Block key={i} block={b} />
       ))}
     </article>
   )
 }
+
+/* ============================================================
+   Cabinet: dinding sampul lagu + film (iTunes)
+   ============================================================ */
 
 // hanya satu lagu yang boleh berbunyi pada satu waktu
 let currentAudio = null

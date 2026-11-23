@@ -59,6 +59,8 @@ export const WRITING = {
         "For a long time I waited until things were ready before showing them to anyone. Ready never came.",
         "So I tried the opposite: ship something small, imperfect, and tell people about it. The first few posts were embarrassing. They were also the first time anyone gave me feedback that actually helped.",
         "Building in public is not about an audience. It is about making it a little harder to quietly give up.",
+        { type: 'image', src: '/media/cabinet/self.webp', caption: 'computer network' },
+
       ],
     },
     {
@@ -78,16 +80,52 @@ export const WRITING = {
       body: [
         "You do not need to be an expert to start writing about something. You need a question and a little stubbornness.",
         "When I learn a new tool, I write down what confused me. Those notes turned out to be the most useful thing I have ever published, because they are written for the person I was last week.",
+        { type: 'image', src: '/media/cabinet/book.webp', caption: 'notes on a book page' },
       ],
     },
     {
-      slug: 'how-i-built-this-website',
-      title: 'How I built this website',
-      date: 'October 28, 2026',
+      slug: 'a-weekend-building-a-tiny-universe',
+      title: 'A weekend building a tiny universe',
+      date: 'November 22, 2026',
       body: [
-        "This site is a fixed 3D canvas with plain HTML laid on top. The canvas never reloads, so moving between pages is just the camera gliding to a new spot.",
-        "Stars are one object made of thousands of points, galaxies are spirals generated from a formula, and the orbits you see on the writing page come from a single equation.",
-        "The best part of building it was how small each piece was on its own. Stack enough small pieces and you get a universe.",
+        "I wanted a portfolio that did not feel like a portfolio. No grid of cards, no hero banner. Just somewhere that felt like a place. So I decided the website would be space.",
+
+        { type: 'image', src: '/media/lptp.webp', caption: 'The setup: one laptop, too much coffee, and a very dark browser tab.' },
+
+        { type: 'heading', text: 'Stars first' },
+        "The first thing I got working was a black screen with a few thousand dots on it. It looked like nothing, and I was weirdly proud of it. Then I added a floor grid and a camera that glides when you click a menu item. Suddenly it felt like I was floating.",
+
+        { type: 'heading', text: 'The bugs were the fun part' },
+        "At one point a whole cluster of galaxies parked itself right on top of my menu. On my phone, the page wobbled sideways like it was trying to escape. The little eye button sat directly on top of the text. Every bug made the site a little less broken and a lot more mine.",
+
+        { type: 'heading', text: 'One page, one corner of the universe' },
+        "Every page ended up as its own scene. Gravitational lensing for about, a galaxy cluster with the Milky Way for projects, orbits for writing, and a solar system for cabinet. I put a small marker on Earth that says you live here, because I could not resist.",
+
+        "None of this was finished in one go. It was an hour here, a late night there, and a lot of refreshing the page to see if the camera landed in the right place. If you are sitting on an idea you think is too big, start with the black screen and a few dots.",
+      ],
+    },
+
+    {
+      slug: 'why-i-love-building-with-claude',
+      title: 'Why I love building with Claude',
+      date: 'November 23, 2026',
+      body: [
+        "I have always been the kind of person who loves technology. AI, robotics, anything that makes a machine do something that feels a little like magic. That curiosity is the reason I started building things in the first place.",
+
+        { type: 'heading', text: 'Ideas used to die in my notes app' },
+        "I had a long list of projects I never started. Not because I did not care, but because the gap between the idea in my head and a working thing on the screen felt huge, and my free time is limited. A spare hour here and there does not add up to much when you have to figure everything out alone.",
+
+        { type: 'heading', text: 'Then I started building with Claude' },
+        "Now I describe what I want, and Claude helps me turn it into something real. This very website is proof. I said I wanted a 3D universe with galaxies, a solar system, and a camera that flies between pages, and a few evenings later it existed. When something looked off, I said so, and we fixed it together until it matched what I had imagined.",
+
+        { type: 'video', src: '/media/cosmos-demo.mp4', caption: 'Five seconds of the site, built in my spare time.' },
+        { type: 'heading', text: 'It makes me want to understand more, not less' },
+        "What I like most is that I come out of it understanding more than I went in with. I read the code, I ask why something works, and I change things myself. It feels less like a shortcut and more like having a very patient teammate who never gets tired of my questions.",
+
+        { type: 'heading', text: 'What I want to build next' },
+        "AI and robotics are what pulled me into all of this, and they are where I want to go next. Software that thinks, machines that move. The distance between imagining something and building it keeps shrinking, and that is the most exciting part of this whole era for me.",
+
+        "So if you have a list of ideas collecting dust somewhere, pick the smallest one and start tonight. You will be surprised how far an hour can go.",
       ],
     },
   ],

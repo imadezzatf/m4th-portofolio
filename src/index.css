@@ -1,5 +1,7 @@
-:root { color-scheme: dark;
-        --accent: #e8a366;
+/* ===== Dasar ===== */
+:root {
+  color-scheme: dark;
+  --accent: #e8a366;
 }
 * { box-sizing: border-box; }
 
@@ -10,44 +12,63 @@ html, body, #root {
   color: #e8e6e1;
   font-family: Georgia, 'Times New Roman', serif;
 }
+/* potong yang keluar sisi kiri/kanan. Pakai clip (bukan hidden) supaya scroll atas-bawah tetap normal */
+html, body { overflow-x: clip; }
 
-/* Lapisan belakang: 3D */
+/* ===== Lapisan belakang: 3D ===== */
 .canvas-layer {
   position: fixed;
   inset: 0;
   z-index: 0;
 }
+@supports (height: 100lvh) {
+  .canvas-layer { height: 100lvh; }   /* tidak berkedip saat address bar HP muncul/hilang */
+}
+.canvas-layer canvas { cursor: grab; }
+.canvas-layer canvas:active { cursor: grabbing; }
 
-/* Lapisan depan: teks */
+/* ===== Lapisan depan: teks ===== */
 .content {
   position: relative;
   z-index: 1;
   max-width: 620px;
   margin: 0 auto;
-  padding: 64px 24px;
-}
-
-.nav { display: flex; gap: 18px; margin-bottom: 28px; font-size: 14px; }
-.nav a { color: #e8e6e1; text-decoration: none; }
-.nav a.active { color: var(--accent); }
-
-h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; }
-p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
-
-/* Transisi saat teks disembunyikan */
-.content {
+  padding: 64px 24px 120px;
   transition: opacity 0.5s ease;
 }
 .content.hidden {
   opacity: 0;
-  pointer-events: none; /* supaya klik/drag tembus ke kanvas */
+  pointer-events: none;   /* klik/drag tembus ke kanvas */
+}
+/* redup halus di belakang teks supaya terbaca */
+.content::before {
+  content: '';
+  position: absolute;
+  inset: 36px 0 96px;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, rgba(5, 5, 7, 0.75) 0%, rgba(5, 5, 7, 0.45) 45%, transparent 75%);
+  pointer-events: none;
+}
+.content h1,
+.content h2,
+.content p {
+  text-shadow: 0 0 14px rgba(5, 5, 7, 0.9);
 }
 
-/* Kursor tangan di atas kanvas */
-.canvas-layer canvas { cursor: grab; }
-.canvas-layer canvas:active { cursor: grabbing; }
+.nav { display: flex; gap: 18px; margin-bottom: 28px; font-size: 14px; }
+.nav a { color: #f0ede6; text-decoration: none; }
+.nav a.active { color: var(--accent); }
 
-/* Tombol mata */
+h1 { font-weight: 400; font-size: 28px; margin: 0 0 8px; }
+p  { font-size: 16px; line-height: 1.75; color: #d6d3cb; }
+
+.sub {
+  margin: 0 0 28px;
+  font-size: 13px;
+  color: #a19e96;
+}
+
+/* ===== Tombol mata + petunjuk ===== */
 .eye-btn {
   position: fixed;
   top: 18px;
@@ -57,7 +78,9 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   place-items: center;
   width: 36px;
   height: 36px;
-  background: transparent;
+  background: rgba(5, 5, 7, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   border: 1px solid rgba(232, 230, 225, 0.18);
   border-radius: 50%;
   color: #b9b6ae;
@@ -66,10 +89,9 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
 }
 .eye-btn:hover {
   color: var(--accent);
-  border-color: #e8a366;
+  border-color: var(--accent);
 }
 
-/* Petunjuk kecil, muncul hanya saat teks disembunyikan */
 .hint {
   position: fixed;
   bottom: 22px;
@@ -86,6 +108,12 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   transition: opacity 0.5s ease;
 }
 .hint.show { opacity: 1; }
+
+/* ===== Label di dalam adegan 3D ===== */
+@keyframes glow {
+  0%, 100% { opacity: 0.6; text-shadow: 0 0 6px var(--accent); }
+  50%      { opacity: 1;   text-shadow: 0 0 10px var(--accent), 0 0 24px var(--accent); }
+}
 
 .you-are-here {
   transform: translateY(-34px);
@@ -106,10 +134,7 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   margin: 6px auto 0;
   background: linear-gradient(var(--accent), transparent);
 }
-@keyframes glow {
-  0%, 100% { opacity: 0.6; text-shadow: 0 0 6px var(--accent); }
-  50%      { opacity: 1;   text-shadow: 0 0 10px var(--accent), 0 0 24px var(--accent); }
-}
+
 .planet-label {
   transform: translateY(-22px);
   white-space: nowrap;
@@ -118,7 +143,6 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   text-transform: uppercase;
   color: #8d8a84;
 }
-/* Label khusus Bumi */
 .planet-label.home {
   transform: translateY(-44px);
   color: var(--accent);
@@ -139,6 +163,7 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   margin: 6px auto 0;
   background: linear-gradient(var(--accent), transparent);
 }
+
 .orbit-label {
   transform: translateY(-16px);
   text-align: center;
@@ -168,42 +193,15 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   font-style: italic;
 }
 
-.sub {
-  margin: 0 0 28px;
-  font-size: 13px;
-  color: #77746e;
-}
-
-.card {
-  margin-bottom: 30px;
-}
-.card h2 {
-  margin: 0 0 6px;
-  font-size: 17px;
-  font-weight: 400;
-  color: #e8e6e1;
-}
-.card p {
-  margin: 0 0 8px;
-}
-.card .date,
-.card .tags {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #6f6d68;
-}
-.card .date {
-  margin-bottom: 8px;
-}
-
+/* ===== Tautan (about, view project, back) ===== */
 .links {
   display: flex;
   gap: 18px;
   margin-top: 28px;
 }
 .links a,
-.more {
+.more,
+.back {
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -211,7 +209,8 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   text-decoration: none;
 }
 .links a:hover,
-.more:hover {
+.more:hover,
+.back:hover {
   text-decoration: underline;
 }
 .more {
@@ -219,154 +218,28 @@ p  { line-height: 1.7; color: #b9b6ae; font-size: 15px; }
   margin-top: 8px;
 }
 
-/* teks panjang tetap terbaca di atas adegan 3D */
-.content {
-  padding-bottom: 120px;
-}
-.content h1,
-.content p,
-.content h2 {
-  text-shadow: 0 0 14px rgba(5, 5, 7, 0.9);
-}
-
-/* daftar tulisan: hanya judul + tanggal */
-.post-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.post-list li {
-  margin-bottom: 22px;
-}
-.post-list a {
-  font-size: 17px;
-  color: #e8e6e1;
-  text-decoration: none;
-  text-shadow: 0 0 14px rgba(5, 5, 7, 0.9);
-  transition: color 0.2s;
-}
-.post-list a:hover {
-  color: var(--accent);
-}
-.post-list .date {
-  margin-top: 4px;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #6f6d68;
-}
-
-/* halaman satu tulisan */
-.post .date {
-  margin: 0 0 22px;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #6f6d68;
-}
-.post p {
-  margin: 0 0 18px;
-}
-.back {
-  display: inline-block;
-  margin-bottom: 22px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  text-decoration: none;
-}
-.back:hover {
-  text-decoration: underline;
-}
-/* ===== Perbaikan keterbacaan teks ===== */
-
-/* Panel gelap transparan + blur di belakang teks */
-.content::before {
-  content: '';
-  position: absolute;
-  inset: -40px -120px 40px;
-  z-index: -1;
-  background: radial-gradient(ellipse at center, rgba(5, 5, 7, 0.75) 0%, rgba(5, 5, 7, 0.45) 45%, transparent 75%);
-  pointer-events: none;
-}
-/* Teks lebih terang dan sedikit lebih besar */
-p {
-  font-size: 16px;
-  line-height: 1.75;
-  color: #d6d3cb;
-}
-.sub {
-  color: #a19e96;
-}
-.card .date,
-.card .tags,
-.post .date,
-.post-list .date {
-  color: #9a978f;
-}
-.nav a {
-  color: #f0ede6;
-}
-.nav a.active {
-  color: var(--accent);
-}
-
-/* ===== Satu layar saja: tidak ada geser ke samping ===== */
-
-/* Pengaman: potong apa pun yang keluar dari sisi kiri/kanan.
-   Pakai "clip", bukan "hidden", supaya scroll atas-bawah tetap normal */
-html,
-body {
-  overflow-x: clip;
-}
-
-/* Akar masalah: panel tidak lagi melebar keluar dari teks */
-.content::before {
-  inset: 36px 0 96px;
-}
-
-/* Layar kecil (HP) */
-@media (max-width: 640px) {
-  .content {
-    padding: 44px 20px 110px;
-  }
-  .content::before {
-    inset: 22px 6px 84px;
-    border-radius: 18px;
-  }
-  .nav {
-    flex-wrap: wrap;
-    gap: 10px 16px;
-  }
-  h1 {
-    font-size: 24px;
-  }
-  p {
-    font-size: 15px;
-  }
-  .content h1,
-  .content h2,
-  .content p {
-    overflow-wrap: anywhere; /* kata panjang tidak mendorong lebar halaman */
-  }
-}
-/* grid 2 kolom (1 kolom di HP). minmax(0, 1fr) mencegah geser ke samping */
+/* ===== Projects ===== */
+/* minmax(0, 1fr) mencegah halaman geser ke samping */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 26px 22px;
 }
-.grid .card {
-  margin-bottom: 0;
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #e8e6e1;
 }
-@media (max-width: 640px) {
-  .grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
+.card p { margin: 0 0 8px; }
+.card .tags {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9a978f;
 }
 
-/* gambar / video di kartu proyek */
+/* gambar / video (kartu proyek dan isi tulisan) */
 .media {
   aspect-ratio: 16 / 10;
   margin-bottom: 12px;
@@ -382,185 +255,68 @@ body {
   height: 100%;
   object-fit: cover;
 }
-.media video {
-  cursor: pointer;
-}
-
-/* sampul di halaman cabinet */
-.cover {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid rgba(232, 230, 225, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  cursor: pointer;
-}
-.cover img {
+.media iframe {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  border: 0;
 }
-.cover:hover img {
-  transform: scale(1.05);
+
+/* ===== Writing ===== */
+.date {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9a978f;
 }
-.cover-info {
-  position: absolute;
-  inset: auto 0 0;
-  padding: 36px 12px 12px;
-  background: linear-gradient(transparent, rgba(5, 5, 7, 0.9));
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+
+.post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.cover:hover .cover-info {
-  opacity: 1;
-  transform: none;
+.post-list li { margin-bottom: 22px; }
+.post-list a {
+  font-size: 17px;
+  color: #e8e6e1;
+  text-decoration: none;
+  text-shadow: 0 0 14px rgba(5, 5, 7, 0.9);
+  transition: color 0.2s;
 }
-.cover-info h2 {
-  margin: 0 0 3px;
-  font-size: 14px;
+.post-list a:hover { color: var(--accent); }
+.post-list .date { margin-top: 4px; }
+
+.post .date { margin: 0 0 22px; }
+.post p { margin: 0 0 18px; }
+.back {
+  display: inline-block;
+  margin-bottom: 22px;
+}
+
+.post-h {
+  margin: 30px 0 10px;
+  font-size: 19px;
+  font-weight: 400;
   color: #f0ede6;
 }
-.cover-info p {
-  margin: 0;
+
+/* gambar / video di dalam tulisan */
+.figure { margin: 26px 0; }
+.figure figcaption {
+  margin-top: 8px;
   font-size: 12px;
   line-height: 1.5;
-  color: #b9b6ae;
+  color: #9a978f;
+  text-align: center;
 }
-/* layar sentuh tidak punya hover → info selalu tampil */
-@media (hover: none) {
-  .cover-info {
-    opacity: 1;
-    transform: none;
-  }
+.media.natural {
+  aspect-ratio: auto;   /* tinggi mengikuti isinya */
+  margin-bottom: 0;
 }
-/* ===== Perbaikan tampilan HP ===== */
-
-/* Tinggi kanvas tetap, tidak berkedip saat address bar muncul/hilang */
-@supports (height: 100lvh) {
-  .canvas-layer { height: 100lvh; }
-}
-
-/* Tombol mata tetap terlihat walau ada teks di bawahnya */
-.eye-btn {
-  background: rgba(5, 5, 7, 0.55);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-}
-
-@media (max-width: 640px) {
-  /* Tombol mata pindah ke kanan bawah: tidak menimpa menu, mudah dijangkau jempol */
-  .eye-btn {
-    top: auto;
-    left: auto;
-    right: 16px;
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    width: 44px;
-    height: 44px;
-  }
-  .hint {
-    bottom: calc(26px + env(safe-area-inset-bottom, 0px));
-    width: max-content;
-    max-width: calc(100vw - 150px);
-    text-align: center;
-    font-size: 10px;
-  }
-
-  .content { padding: 56px 20px 120px; }
-  .content::before { inset: 30px 4px 96px; }
-  .nav { font-size: 15px; }
-  .post-list a { font-size: 16px; }
-  .cover-info p { font-size: 11px; }
-
-  /* Label di dalam adegan 3D lebih kecil */
-  .planet-label,
-  .orbit-label { font-size: 8px; letter-spacing: 0.14em; }
-  .planet-label.home span,
-  .orbit-label span { font-size: 7px; }
-  .you-are-here { font-size: 9px; letter-spacing: 0.2em; }
-  .formula { font-size: 10px; }
-}
-
-.songs .tile { aspect-ratio: 1; }
-.films .tile { aspect-ratio: 2 / 3; }
-.tile:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent);
-}
-.tile img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-.tile:hover img { transform: scale(1.05); }
-
-.tile-info {
-  position: absolute;
-  inset: auto 0 0;
-  padding: 34px 10px 10px;
-  background: linear-gradient(transparent, rgba(5, 5, 7, 0.92));
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.tile:hover .tile-info,
-.tile.nocover .tile-info {
-  opacity: 1;
-  transform: none;
-}
-.tile.nocover .tile-info {
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  background: none;
-}
-.tile-info h2 {
-  margin: 0 0 2px;
-  font-size: 13px;
-  line-height: 1.3;
-  color: #f0ede6;
-}
-.tile-info p {
-  margin: 0;
-  font-size: 11px;
-  line-height: 1.4;
-  color: #b9b6ae;
-}
-@media (hover: none) {
-  .tile-info { opacity: 1; transform: none; }
-}
-
-/* indikator sedang memutar lagu */
-.bars {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 14px;
-  padding: 4px 5px;
-  border-radius: 6px;
-  background: rgba(5, 5, 7, 0.6);
-}
-.bars i {
-  width: 3px;
-  height: 100%;
-  background: var(--accent);
-  transform-origin: bottom;
-  animation: eq 0.9s ease-in-out infinite;
-}
-.bars i:nth-child(2) { animation-delay: 0.2s; }
-.bars i:nth-child(3) { animation-delay: 0.4s; }
-@keyframes eq {
-  0%, 100% { transform: scaleY(0.3); }
-  50% { transform: scaleY(1); }
+.media.natural img { height: auto; }
+.media.natural video {
+  object-fit: contain;
+  background: #000;
 }
 
 /* ===== Cabinet: dinding sampul (masonry, 4 kolom di semua layar) ===== */
@@ -593,7 +349,6 @@ body {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
-
 .piece img {
   display: block;
   width: 100%;
@@ -638,15 +393,12 @@ body {
   text-overflow: ellipsis;
 }
 
-/* kotak tanpa gambar */
 .piece.nocover {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
 }
+.piece.playing { box-shadow: 0 0 0 1.5px var(--accent); }
 
-/* penanda lagu sedang diputar */
-.piece.playing {
-  box-shadow: 0 0 0 1.5px var(--accent);
-}
+/* indikator lagu sedang diputar */
 .eqbars {
   position: absolute;
   top: 6px;
@@ -673,17 +425,55 @@ body {
   50%      { transform: scaleY(1); }
 }
 
-/* HP: tetap 4 kolom, kotak lebih kecil dan rapat */
+/* layar sentuh: jangan "tersangkut" membesar setelah diketuk */
+@media (hover: none) {
+  .piece:hover { transform: none; box-shadow: none; }
+}
+
+/* ===== HP (taruh paling akhir supaya menimpa aturan dasar) ===== */
 @media (max-width: 640px) {
+  .content { padding: 56px 20px 120px; }
+  .content::before { inset: 30px 4px 96px; }
+  .content h1,
+  .content h2,
+  .content p { overflow-wrap: anywhere; }   /* kata panjang tidak mendorong lebar halaman */
+
+  .nav { flex-wrap: wrap; gap: 10px 16px; font-size: 15px; }
+  h1 { font-size: 24px; }
+  p  { font-size: 15px; }
+  .post-list a { font-size: 16px; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* tombol mata pindah ke kanan bawah: tidak menimpa menu, dekat jempol */
+  .eye-btn {
+    top: auto;
+    left: auto;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: 44px;
+    height: 44px;
+  }
+  .hint {
+    bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+    width: max-content;
+    max-width: calc(100vw - 150px);
+    text-align: center;
+    font-size: 10px;
+  }
+
+  /* label adegan 3D lebih kecil */
+  .planet-label,
+  .orbit-label { font-size: 8px; letter-spacing: 0.14em; }
+  .planet-label.home span,
+  .orbit-label span { font-size: 7px; }
+  .you-are-here { font-size: 9px; letter-spacing: 0.2em; }
+  .formula { font-size: 10px; }
+
+  /* cabinet: tetap 4 kolom, kotak lebih kecil dan rapat */
   .wall { column-gap: 6px; }
   .piece { margin-bottom: 6px; border-radius: 4px; }
   .piece-info { padding: 18px 5px 5px; }
   .piece-info h2 { font-size: 9px; }
   .piece-info p { display: none; }
   .eqbars { top: 4px; right: 4px; height: 10px; padding: 3px 4px; }
-}
-
-/* layar sentuh: jangan "tersangkut" membesar setelah diketuk */
-@media (hover: none) {
-  .piece:hover { transform: none; box-shadow: none; }
 }
