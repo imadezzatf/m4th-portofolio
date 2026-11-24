@@ -128,6 +128,17 @@ export const WRITING = {
         "So if you have a list of ideas collecting dust somewhere, pick the smallest one and start tonight. You will be surprised how far an hour can go.",
       ],
     },
+    {
+      slug: 'nyore',
+      title: 'sore kala itu dan pesek',
+      date: 'November 24, 2026',
+      body: [
+        "ada hari-hari di mana terasa repetitif, dan gua kejebak di tengahnya.",
+        "gabut dah",
+        "untungnya ada kucing mukanya terplenger sedunia , bulunya tebel banget tp kalo mandi lgsg keliatan kurus beut. beliau lagi rebahan telentang. sbg babu yang baik gua garukin belakang telinganya dah tuh, keenakan jir. (terlihat dari ekspresinya)",
+        { type: 'image', src: '/media/cabinet/cat.webp', caption: 'namanya pesek ges dia plenger bgt asli dah' },
+      ],
+    },
   ],
 }
 
