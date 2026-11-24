@@ -203,11 +203,20 @@ export const CABINET = {
     },
     {
       kind: 'film',
+      title: 'Dead Poets Society',
+      by: 'Peter Weir',
+      cover: '/media/cabinet/Dead_poets_society.webp',
+      link: 'https://en.wikipedia.org/wiki/Dead_poets_society',
+    },
+    {
+      kind: 'film',
       title: 'The Odyssey',
       by: 'Christopher Nolan',
       cover: '/media/cabinet/The_Odyssey-film_poster.webp',
       link: 'https://id.wikipedia.org/wiki/The_Odyssey_(film_2026)',
     },
     { kind: 'song', title: 'Telepatia', by: 'Kali Uchis', itunes: 'Telepatia Kali Uchis' },
+
+    {kind: 'film', title: 'ao haru ride', by: 'Io Sakisaka', cover: '/media/cabinet/Ao_Haru_Ride.webp', link: 'https://id.wikipedia.org/wiki/Blue_Spring_Ride'},
   ],
 }
