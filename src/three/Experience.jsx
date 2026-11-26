@@ -20,10 +20,10 @@ export default function Experience() {
             camera={{ position: [0, 34, 62], fov: 55 }}
             gl={{ antialias: true, powerPreference: 'high-performance' }}
         >
-            <color attach="background" args={['#050507']} />
+            <color attach="background" args={['#030304']} />
 
             <Stars />
-            <gridHelper args={[300, 150, '#2a2a33', '#16161b']} position={[0, -3, 0]} />
+            <gridHelper args={[300, 150, '#1b1b22', '#0d0d12']} position={[0, -3, 0]} />
 
             <group position={LENS_CENTER}>
                 <Lensing active={pathname === '/'} />

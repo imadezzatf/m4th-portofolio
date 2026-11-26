@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 
-export default function Stars({ count = 2500, radius = 150 }) {
+export default function Stars({ count = 3000, radius = 150 }) {
   const ref = useRef()
 
   // useMemo: dihitung sekali saja, tidak diulang tiap frame
@@ -29,11 +29,11 @@ export default function Stars({ count = 2500, radius = 150 }) {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.4}
+        size={0.3}
         sizeAttenuation
-        color="#cfd6ff"
+        color="#aab2c4"
         transparent
-        opacity={0.85}
+        opacity={0.5}
         depthWrite={false}
       />
     </points>

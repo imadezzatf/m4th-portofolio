@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Html, Line } from '@react-three/drei'
+import * as THREE from 'three'
 import Glow from './Glow'
 
 const P = 6        // semi-latus rectum (lebar dasar orbit)
@@ -79,14 +80,63 @@ function Orbit({ name, note, e, color, rot, showLabel }) {
   )
 }
 
+function Earth() {
+  const mesh = useRef()
+  const texture = useMemo(() => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 256
+    canvas.height = 128
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return null
+
+    ctx.fillStyle = '#19355c'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    const continents = [
+      [58, 44, 24, '#567563'], [76, 68, 19, '#75826e'], [134, 40, 28, '#5c7866'],
+      [152, 70, 21, '#7f8975'], [206, 54, 22, '#557161'], [114, 94, 30, '#939ca4'],
+    ]
+    continents.forEach(([x, y, radius, color]) => {
+      const gradient = ctx.createRadialGradient(x, y, 2, x, y, radius)
+      gradient.addColorStop(0, color)
+      gradient.addColorStop(1, 'rgba(25, 53, 92, 0)')
+      ctx.fillStyle = gradient
+      ctx.beginPath()
+      ctx.arc(x, y, radius, 0, Math.PI * 2)
+      ctx.fill()
+    })
+
+    ctx.fillStyle = 'rgba(240, 246, 255, 0.28)'
+    for (let i = 0; i < 20; i++) {
+      ctx.fillRect((i * 37) % 240, (i * 19) % 115, 26, 4)
+    }
+
+    const map = new THREE.CanvasTexture(canvas)
+    map.colorSpace = THREE.SRGBColorSpace
+    return map
+  }, [])
+
+  useFrame((_, dt) => {
+    if (mesh.current) mesh.current.rotation.y += dt * 0.12
+  })
+
+  return (
+    <group>
+      <ambientLight intensity={0.8} />
+      <directionalLight position={[14, 24, 12]} intensity={1.8} color="#fff9f0" />
+      <mesh ref={mesh} rotation={[-Math.PI / 2 + 0.3, 0.6, 0.2]}>
+        <sphereGeometry args={[1.1, 36, 36]} />
+        <meshStandardMaterial map={texture || undefined} roughness={0.65} metalness={0.08} />
+      </mesh>
+    </group>
+  )
+}
+
 export default function Orbits({ active }) {
   return (
     <group>
       {/* benda di pusat (fokus orbit) */}
-      <mesh>
-        <sphereGeometry args={[1.1, 32, 32]} />
-        <meshBasicMaterial color="#4a86d8" />
-      </mesh>
+      <Earth />
       <Glow size={6} color="#6fa0ff" opacity={0.7} />
 
       {ORBITS.map((o) => (
